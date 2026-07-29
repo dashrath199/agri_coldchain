@@ -140,33 +140,16 @@ def ensure_item_groups():
 # ═══════════════════════════════════════════════════════
 
 def ensure_warehouses():
-	"""Ensure warehouses for cold storage zones exist."""
+	"""Ensure warehouses for cold storage zones exist.
+
+	Note: Warehouses are created as root-level (no parent_warehouse) to avoid
+	link validation issues with Frappe's auto-naming convention
+	(warehouse_name - company_abbr). The hierarchy is maintained via
+	warehouse_name only for demo purposes.
+	"""
 	default_wh = frappe.db.get_single_value("Stock Settings", "default_warehouse")
 	if not default_wh:
 		default_wh = "Stores"
-
-	# Ensure root "All Warehouses" group exists (ERPNext creates it during setup,
-	# but on fresh sites it may not exist yet)
-	if not frappe.db.exists("Warehouse", "All Warehouses"):
-		try:
-			frappe.get_doc({
-				"doctype": "Warehouse",
-				"warehouse_name": "All Warehouses",
-				"is_group": 1,
-			}).insert(ignore_permissions=True)
-			print("  Warehouse Root: All Warehouses — Created")
-		except Exception as e:
-			print("  Warehouse Root: Skip ({})".format(str(e)))
-
-	# Ensure parent warehouse group exists
-	if not frappe.db.exists("Warehouse", "Cold Storage - CC") and not frappe.db.exists("Warehouse", {"warehouse_name": "Cold Storage"}):
-		frappe.get_doc({
-			"doctype": "Warehouse",
-			"warehouse_name": "Cold Storage",
-			"is_group": 1,
-			"parent_warehouse": "All Warehouses",
-		}).insert(ignore_permissions=True)
-		print("  Warehouse Group: Cold Storage — Created")
 
 	warehouse_names = {
 		"CS-Frozen": "Cold Storage - Frozen Zone",
@@ -177,14 +160,13 @@ def ensure_warehouses():
 
 	created = {}
 	for wh_code, wh_name in warehouse_names.items():
-		wh_full = "{} - {}".format(wh_name, frappe.db.get_single_value("Stock Settings", "company_abbr") or "CC")
-		# Try to match by warehouse_name
 		if not frappe.db.exists("Warehouse", {"warehouse_name": wh_name}):
 			try:
 				doc = frappe.get_doc({
 					"doctype": "Warehouse",
 					"warehouse_name": wh_name,
-					"parent_warehouse": "Cold Storage",
+					# Omit parent_warehouse to avoid link validation failures
+					# due to Frappe's warehouse naming convention
 				})
 				doc.insert(ignore_permissions=True)
 				print("  Warehouse: {} — Created".format(wh_name))
@@ -195,18 +177,6 @@ def ensure_warehouses():
 			existing = frappe.get_value("Warehouse", {"warehouse_name": wh_name}, "name")
 			print("  Warehouse: {} — Already exists".format(wh_name))
 			created[wh_code] = existing
-
-	# Ensure default warehouse exists if not set
-	if not frappe.db.get_single_value("Stock Settings", "default_warehouse"):
-		if not frappe.db.exists("Warehouse", default_wh):
-			try:
-				frappe.get_doc({
-					"doctype": "Warehouse",
-					"warehouse_name": default_wh,
-					"parent_warehouse": "All Warehouses",
-				}).insert(ignore_permissions=True)
-			except Exception:
-				pass
 
 	frappe.db.commit()
 	return created
