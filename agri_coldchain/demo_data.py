@@ -145,8 +145,21 @@ def ensure_warehouses():
 	if not default_wh:
 		default_wh = "Stores"
 
+	# Ensure root "All Warehouses" group exists (ERPNext creates it during setup,
+	# but on fresh sites it may not exist yet)
+	if not frappe.db.exists("Warehouse", "All Warehouses"):
+		try:
+			frappe.get_doc({
+				"doctype": "Warehouse",
+				"warehouse_name": "All Warehouses",
+				"is_group": 1,
+			}).insert(ignore_permissions=True)
+			print("  Warehouse Root: All Warehouses — Created")
+		except Exception as e:
+			print("  Warehouse Root: Skip ({})".format(str(e)))
+
 	# Ensure parent warehouse group exists
-	if not frappe.db.exists("Warehouse", "Cold Storage"):
+	if not frappe.db.exists("Warehouse", "Cold Storage - CC") and not frappe.db.exists("Warehouse", {"warehouse_name": "Cold Storage"}):
 		frappe.get_doc({
 			"doctype": "Warehouse",
 			"warehouse_name": "Cold Storage",
