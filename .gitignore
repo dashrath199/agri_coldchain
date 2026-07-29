@@ -10,7 +10,6 @@ build/
 # Frappe / Bench
 sites/
 node_modules/
-public/
 .bench/
 assets/
 
