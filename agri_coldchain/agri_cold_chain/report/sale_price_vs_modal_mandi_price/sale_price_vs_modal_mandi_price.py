@@ -5,7 +5,7 @@ from frappe import _
 
 
 def execute(filters=None):
-    """Sale Price vs. Modal Mandi Price — Query Report.
+    """Sale Price vs Modal Mandi Price — Query Report.
 
     Compares actual sales prices against modal mandi prices for the
     same commodity/date, enabling pricing decisions based on market data.

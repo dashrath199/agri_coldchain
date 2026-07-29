@@ -5,7 +5,7 @@ from frappe import _
 
 
 def execute(filters=None):
-    """Spoilage Loss Value by Commodity/Month — Script Report.
+    """Spoilage Loss Value by Commodity Month — Script Report.
 
     Calculates the financial value of stock that has been written off or
     expired by commodity and month, using stock valuation rates.
