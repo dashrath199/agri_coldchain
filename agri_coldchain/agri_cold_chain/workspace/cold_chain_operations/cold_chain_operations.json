@@ -1,4 +1,5 @@
 {
+ "doctype": "Workspace",
  "charts": [
   {
    "chart_name": "Batches Nearing Expiry",
