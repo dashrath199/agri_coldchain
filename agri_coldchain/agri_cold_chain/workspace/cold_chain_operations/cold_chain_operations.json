@@ -238,7 +238,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "dollar-sign",
-   "url": "/app/query-report/Spoilage%20Loss%20Value%20by%20Commodity%2FMonth",
+   "url": "/app/query-report/Spoilage%20Loss%20Value%20by%20Commodity%20Month",
    "idx": 22
   }
  ],

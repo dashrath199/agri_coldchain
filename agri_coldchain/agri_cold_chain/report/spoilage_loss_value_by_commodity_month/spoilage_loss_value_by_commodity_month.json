@@ -9,11 +9,11 @@
  "json": "{}",
  "modified": "2025-01-01 00:00:00",
  "module": "Agri Cold Chain",
- "name": "Spoilage Loss Value by Commodity/Month",
+ "name": "Spoilage Loss Value by Commodity Month",
  "owner": "Administrator",
  "prepared_report": 0,
  "ref_doctype": "Stock Entry",
- "report_name": "Spoilage Loss Value by Commodity/Month",
+ "report_name": "Spoilage Loss Value by Commodity Month",
  "report_type": "Script Report",
  "roles": []
 }
