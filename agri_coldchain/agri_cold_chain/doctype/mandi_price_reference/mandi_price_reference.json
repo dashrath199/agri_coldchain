@@ -1,0 +1,123 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MANDI-{commodity}-{#####}",
+ "creation": "2025-01-01 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "commodity",
+  "market_name",
+  "price_date",
+  "min_price",
+  "max_price",
+  "modal_price",
+  "column_break_7",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "commodity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commodity",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "market_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Market Name"
+  },
+  {
+   "fieldname": "price_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Price Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "min_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Min Price (₹)",
+   "options": "INR"
+  },
+  {
+   "fieldname": "max_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Max Price (₹)",
+   "options": "INR"
+  },
+  {
+   "fieldname": "modal_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Modal Price (₹)",
+   "options": "INR"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Mandi Price Reference",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 0,
+ "links": [],
+ "modified": "2025-01-01 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Agri Cold Chain",
+ "name": "Mandi Price Reference",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cold Storage Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Inspector",
+   "share": 0,
+   "write": 0
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Warehouse Operator",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
