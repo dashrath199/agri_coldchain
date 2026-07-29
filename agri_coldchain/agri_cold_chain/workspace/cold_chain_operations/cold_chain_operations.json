@@ -20,28 +20,32 @@
  "label": "Cold Chain Operations",
  "links": [
   {
-   "type": "URL",
+   "link_type": "URL",
+   "type": "Link",
    "label": "Agmarknet Mandi Portal",
    "icon": "external-link",
    "link_to": "https://agmarknet.gov.in",
    "idx": 1
   },
   {
-   "type": "URL",
+   "link_type": "URL",
+   "type": "Link",
    "label": "HACCP Batch Certificate",
    "icon": "file-text",
    "link_to": "/app/print-format/HACCP%20FSSAI%20Batch%20Certificate",
    "idx": 2
   },
   {
-   "type": "Report",
+   "link_type": "Report",
+   "type": "Link",
    "label": "Stock Ageing Report",
    "icon": "bar-chart",
    "link_to": "Stock Ageing",
    "idx": 3
   },
   {
-   "type": "DocType",
+   "link_type": "DocType",
+   "type": "Link",
    "label": "Supplier Purchase Receipts",
    "icon": "file",
    "link_to": "Purchase Receipt",
