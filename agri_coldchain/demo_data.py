@@ -147,10 +147,6 @@ def ensure_warehouses():
 	(warehouse_name - company_abbr). The hierarchy is maintained via
 	warehouse_name only for demo purposes.
 	"""
-	default_wh = frappe.db.get_single_value("Stock Settings", "default_warehouse")
-	if not default_wh:
-		default_wh = "Stores"
-
 	warehouse_names = {
 		"CS-Frozen": "Cold Storage - Frozen Zone",
 		"CS-Chilled": "Cold Storage - Chilled Zone",
