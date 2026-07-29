@@ -63,6 +63,12 @@ def execute():
 		# ── 14. Sales Invoices ──
 		sales_invoices = ensure_sales_invoices(sales_orders)
 
+		# ── 15. FEFO Override Log Entries ──
+		fefo_overrides = ensure_fefo_overrides(delivery_notes, items)
+
+		# ── 16. Spoilage Write-Off (Material Issue) ──
+		spoilage_entry = ensure_spoilage_write_off(items, warehouses, batches)
+
 		print()
 		print("=" * 60)
 		print("  Demo data seeded successfully!")
@@ -78,6 +84,8 @@ def execute():
 		print("  Delivery Notes: {}".format(len(delivery_notes)))
 		print("  Transit Logs: {}".format(len(transit_logs)))
 		print("  Sales Invoices: {}".format(len(sales_invoices)))
+		print("  FEFO Override Logs: {}".format(len(fefo_overrides)))
+		print("  Spoilage Write-Off Entry: {}".format("Yes" if spoilage_entry else "No"))
 		print("=" * 60)
 
 	except Exception as e:
@@ -1070,10 +1078,7 @@ def ensure_delivery_notes(sales_orders, items, warehouses, batches):
 				"qty": so_item.qty,
 				"uom": so_item.uom,
 				"rate": so_item.rate,
-				"warehouse": next(
-					(v for k, v in warehouses.items() if k.startswith("CS-")),
-					None
-				),
+				"warehouse": _pick_warehouse_for_item(so_item.item_code, warehouses),
 				"against_sales_order": so_name,
 				"so_detail": so_item.name,
 			})
@@ -1181,6 +1186,23 @@ def ensure_transit_logs(delivery_notes):
 #  14. Sales Invoices
 # ═══════════════════════════════════════════════════════
 
+def _pick_warehouse_for_item(item_code, warehouses):
+	"""Pick the correct warehouse based on item's storage zone."""
+	if not warehouses:
+		return None
+	# Check item's max safe temp to determine zone
+	max_temp = frappe.db.get_value("Item", item_code, "custom_max_safe_temp_c") or 25
+	if max_temp <= 0:
+		# Frozen items
+		return warehouses.get("CS-Frozen", next(iter(warehouses.values())))
+	elif max_temp <= 8:
+		# Chilled items
+		return warehouses.get("CS-Chilled", next(iter(warehouses.values())))
+	else:
+		# Ambient items
+		return warehouses.get("CS-Ambient", next(iter(warehouses.values())))
+
+
 def ensure_sales_invoices(sales_orders):
 	"""Ensure Sales Invoices for billed sales orders."""
 	today_dt = today()
@@ -1235,3 +1257,155 @@ def ensure_sales_invoices(sales_orders):
 
 	frappe.db.commit()
 	return created
+
+
+# ═══════════════════════════════════════════════════════
+#  15. FEFO Override Log Entries
+# ═══════════════════════════════════════════════════════
+
+def ensure_fefo_overrides(delivery_notes, items):
+	"""Create FEFO Override Notification Log entries for audit trail."""
+	if not delivery_notes:
+		print("  FEFO: No delivery notes for FEFO logs")
+		return []
+
+	override_data = [
+		{
+			"dn_idx": 0,
+			"item": "Pasteurised Milk (Full Cream)",
+			"selected_batch": "BATCH-003",
+			"oldest_batch": "BATCH-001",
+		},
+		{
+			"dn_idx": 0,
+			"item": "Fresh Paneer (Cottage Cheese)",
+			"selected_batch": "BATCH-005",
+			"oldest_batch": "BATCH-002",
+		},
+	]
+
+	created = []
+	today_dt = nowdate()
+	for od in override_data:
+		idx = od["dn_idx"]
+		if idx >= len(delivery_notes):
+			continue
+
+		dn_name = delivery_notes[idx]
+		item_code = items.get(od["item"])
+
+		subject = "FEFO Override — Delivery Note {}".format(dn_name)
+		if frappe.db.exists("Notification Log", {"subject": ["like", "%{}%".format(subject[:40])]}):
+			print("  FEFO Log: for DN {} — Already exists".format(dn_name))
+			continue
+
+		try:
+			log = frappe.get_doc({
+				"doctype": "Notification Log",
+				"subject": subject,
+				"email_content": (
+					"FEFO Override Log:\n"
+					"Delivery Note: {}\n"
+					"Item: {}\n"
+					"Selected Batch: {}\n"
+					"Oldest Available Batch: {}\n"
+					"Overridden By: {}\n"
+					"Timestamp: {}"
+				).format(dn_name, item_code or od["item"],
+						 od["selected_batch"], od["oldest_batch"],
+						 "Administrator", today_dt),
+				"document_type": "Delivery Note",
+				"document_name": dn_name,
+				"for_user": "Administrator",
+			})
+			log.insert(ignore_permissions=True)
+			print("  FEFO Log: For DN {} — Created (override of {} over {})".format(
+				dn_name, od["selected_batch"], od["oldest_batch"]
+			))
+			created.append(log.name)
+		except Exception as e:
+			print("  FEFO Log: For DN {} — Skip ({})".format(dn_name, str(e)))
+
+	frappe.db.commit()
+	return created
+
+
+# ═══════════════════════════════════════════════════════
+#  16. Spoilage Write-Off Entry
+# ═══════════════════════════════════════════════════════
+
+def ensure_spoilage_write_off(items, warehouses, batches):
+	"""Create a Material Issue Stock Entry simulating expired/spoiled stock."""
+	if not batches or len(batches) < 2:
+		print("  Spoilage: Not enough batches created yet")
+		return None
+
+	today_dt = today()
+
+	# Use Spent Hen Meat which has a short shelf life (3 days)
+	item_code = None
+	for key, code in items.items():
+		if "Spent Hen" in key:
+			item_code = code
+			break
+	if not item_code:
+		print("  Spoilage: No suitable item found for write-off")
+		return None
+
+	warehouse = None
+	for k in ["CS-Chilled", "CS-Frozen", "CS-Ambient"]:
+		if k in warehouses:
+			warehouse = warehouses[k]
+			break
+	if not warehouse:
+		warehouse = next(iter(warehouses.values()))
+
+	# Find a batch for this item
+	target_batch = None
+	for b in batches:
+		try:
+			batch_doc = frappe.get_doc("Batch", b)
+			if batch_doc.item == item_code:
+				target_batch = b
+				break
+		except Exception:
+			continue
+
+	if not target_batch:
+		print("  Spoilage: No matching batch for item")
+		return None
+
+	# Check if a spoilage entry already exists
+	has_entry = frappe.db.exists("Stock Entry", {
+		"stock_entry_type": "Material Issue",
+		"posting_date": today_dt,
+	})
+	if has_entry:
+		print("  Spoilage Entry: Already exists for today")
+		return has_entry
+
+	try:
+		doc = frappe.get_doc({
+			"doctype": "Stock Entry",
+			"stock_entry_type": "Material Issue",
+			"posting_date": today_dt,
+			"items": [{
+				"item_code": item_code,
+				"qty": -25,
+				"uom": "Kg",
+				"s_warehouse": warehouse,
+				"batch_no": target_batch,
+				"allow_zero_valuation_rate": 1,
+			}],
+		})
+		doc.insert(ignore_permissions=True)
+		doc.submit()
+		print("  Spoilage Entry: {} — 25Kg written off (Item: {})".format(
+			doc.name, item_code
+		))
+		frappe.db.commit()
+		return doc.name
+	except Exception as e:
+		frappe.db.rollback()
+		print("  Spoilage Entry: Skip ({})".format(str(e)))
+		return None
