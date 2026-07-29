@@ -774,32 +774,6 @@ def _ensure_delivery_notes(sales_invoices, items, warehouses):
 		# Get SI posting date
 		si_date = frappe.db.get_value("Sales Invoice", si_name, "posting_date")
 
-		# Query SI items to get row names for si_detail
-		si_item_map = {}
-		for item_name, qty, wh_key in entry["items"]:
-			item_code = items.get(item_name)
-			warehouse = warehouses.get(wh_key)
-			if not item_code or not warehouse:
-				continue
-
-			# Find the specific SI item row for this item_code
-			si_row = frappe.db.get_value(
-				"Sales Invoice Item",
-				{"parent": si_name, "item_code": item_code},
-				"name"
-			)
-
-			dn_items.append({
-				"item_code": item_code,
-				"qty": qty,
-				"warehouse": warehouse,
-				"against_sales_invoice": si_name,
-				"si_detail": si_row or "",
-			})
-
-		if not dn_items:
-			continue
-
 		# Check if DN already exists for this SI
 		if frappe.db.exists("Delivery Note", {
 			"customer": entry["customer"],
@@ -813,7 +787,7 @@ def _ensure_delivery_notes(sales_invoices, items, warehouses):
 			created.append(existing)
 			continue
 
-		# Build DN items with si_detail
+		# Build DN items with si_detail (SI item row names)
 		dn_items = []
 		for item_name, qty, wh_key in entry["items"]:
 			item_code = items.get(item_name)
