@@ -108,7 +108,6 @@ def _get_wh_name(warehouse_name):
 
 def _fix_missing_columns():
 	"""Add missing DB columns that ERPNext v15 expects but may not exist."""
-	import frappe.database.database as db_module
 	columns_to_check = [
 		("tabContact", "is_billing_contact", "INT(1) NOT NULL DEFAULT 0"),
 		("tabContact", "is_primary_contact", "INT(1) NOT NULL DEFAULT 0"),
@@ -440,8 +439,8 @@ def _ensure_stock_entries(items, warehouses, batches):
 	today_dt = today()
 	# Map items to their batches
 	item_to_batch = {}
-	for b in batches:
-		doc = frappe.get_doc("Batch", b) if not isinstance(b, str) else frappe.get_doc("Batch", b)
+	for batch_name in batches:
+		doc = frappe.get_doc("Batch", batch_name)
 		item_to_batch[doc.item] = doc.name
 
 	# Rate map for items (₹ per unit)
@@ -916,7 +915,7 @@ def _ensure_fefo_overrides(delivery_notes, items):
 
 
 # ═══════════════════════════════════════════════════════
-#  13. Spoilage Write-Off
+#  14. Spoilage Write-Off
 # ═══════════════════════════════════════════════════════
 
 def _ensure_spoilage_write_off(items, warehouses, batches):
