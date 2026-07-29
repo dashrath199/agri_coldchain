@@ -1,0 +1,20 @@
+{
+ "doctype": "Print Format",
+ "name": "HACCP FSSAI Batch Certificate",
+ "absolute_value": 1,
+ "align_labels_right": 0,
+ "css": ".print-format {\n  font-family: 'Helvetica Neue', Arial, sans-serif;\n  padding: 20px;\n}\n.print-format .header {\n  text-align: center;\n  border-bottom: 3px solid #1abc9c;\n  padding-bottom: 10px;\n  margin-bottom: 20px;\n}\n.print-format .header h1 {\n  color: #1abc9c;\n  font-size: 22px;\n  margin: 0;\n}\n.print-format .header h3 {\n  color: #555;\n  font-size: 14px;\n  margin: 5px 0 0 0;\n  font-weight: normal;\n}\n.print-format .section-title {\n  background: #1abc9c;\n  color: white;\n  padding: 6px 12px;\n  font-size: 13px;\n  font-weight: bold;\n  margin: 15px 0 8px 0;\n}\n.print-format table {\n  width: 100%;\n  border-collapse: collapse;\n  margin: 8px 0;\n}\n.print-format table th {\n  background: #f0f0f0;\n  padding: 6px 8px;\n  text-align: left;\n  font-size: 11px;\n  border: 1px solid #ddd;\n}\n.print-format table td {\n  padding: 6px 8px;\n  font-size: 11px;\n  border: 1px solid #ddd;\n}\n.print-format .footer {\n  margin-top: 30px;\n  padding-top: 10px;\n  border-top: 1px solid #ddd;\n  font-size: 10px;\n  color: #888;\n  text-align: center;\n}\n.print-format .seal-area {\n  margin-top: 20px;\n  text-align: right;\n}\n.print-format .grade-badge {\n  display: inline-block;\n  padding: 4px 12px;\n  border-radius: 4px;\n  font-weight: bold;\n  font-size: 16px;\n}",
+ "custom_format": 1,
+ "default_print_language": "en",
+ "disabled": 0,
+ "doc_type": "Serial and Batch Bundle",
+ "docstatus": 0,
+ "font": "Default",
+ "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"Custom HTML\", \"options\": \"<div class=\\\"header\\\"><h1>HACCP / FSSAI BATCH CERTIFICATE</h1><h3>Agri Cold Chain Traceability Certificate</h3></div>\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Batch Information\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"name\", \"label\": \"Bundle ID\"}, {\"fieldname\": \"item_code\", \"label\": \"Item Code\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"batch_no\", \"label\": \"Batch ID\", \"fieldtype\": \"Data\", \"options\": \"\"}, {\"fieldname\": \"warehouse\", \"label\": \"Stored At\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Quality & Shelf Life\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"custom_grade\", \"label\": \"Quality Grade\"}, {\"fieldname\": \"custom_adjusted_shelf_life_days\", \"label\": \"Shelf Life (Days)\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"manufacturing_date\", \"label\": \"Manufacturing Date\"}, {\"fieldname\": \"expiry_date\", \"label\": \"Expiry Date\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Cold Storage Assignment\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"cold_storage_unit\", \"label\": \"Cold Storage Unit\"}, {\"fieldname\": \"temperature_range\", \"label\": \"Temp Range\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Certification\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"certification_statement\", \"fieldtype\": \"Custom HTML\", \"options\": \"<p>This is to certify that the above batch has been inspected, graded, and stored in compliance with HACCP and FSSAI food safety standards. The shelf life has been adjusted based on quality grade assessment at intake.</p><div class=\\\"seal-area\\\"><p><strong>Authorized Signatory</strong></p><p style=\\\"margin-top:40px;\\\">_________________________</p><p>Date: {{ frappe.utils.nowdate() }}</p></div>\"}]",
+ "html": "",
+ "module": "Agri Cold Chain",
+ "properties": {},
+ "raw_printing": 0,
+ "show_section_headings": 0,
+ "standard": "Yes"
+}

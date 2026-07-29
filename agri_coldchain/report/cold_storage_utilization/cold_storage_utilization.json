@@ -1,0 +1,23 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "modified": "2025-01-01 00:00:00",
+ "module": "Agri Cold Chain",
+ "name": "Cold Storage Utilization",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Cold Storage Unit",
+ "report_name": "Cold Storage Utilization",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "Cold Storage Manager"},
+  {"role": "Quality Inspector"},
+  {"role": "Warehouse Operator"}
+ ]
+}

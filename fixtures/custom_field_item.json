@@ -1,0 +1,45 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "custom_base_shelf_life_days",
+  "fieldtype": "Int",
+  "label": "Base Shelf Life (Days)",
+  "insert_after": "end_of_life",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "precision": "",
+  "read_only": 0,
+  "reqd": 0,
+  "show_in_list_view": 1,
+  "description": "Default shelf life in days for this perishable item"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "custom_requires_quality_inspection",
+  "fieldtype": "Check",
+  "label": "Requires Quality Inspection",
+  "insert_after": "custom_base_shelf_life_days",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "read_only": 0,
+  "reqd": 0,
+  "default": "0",
+  "description": "Enable to require Quality Inspection on intake"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "custom_max_safe_temp_c",
+  "fieldtype": "Float",
+  "label": "Max Safe Temperature (°C)",
+  "insert_after": "custom_requires_quality_inspection",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "precision": "1",
+  "read_only": 0,
+  "reqd": 0,
+  "description": "Maximum safe temperature for transit breach detection"
+ }
+]

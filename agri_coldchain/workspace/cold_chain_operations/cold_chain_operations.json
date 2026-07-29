@@ -1,0 +1,120 @@
+{
+ "charts": [
+  {
+   "chart_name": "Batches Nearing Expiry",
+   "label": "Batches Nearing Expiry",
+   "type": "Report"
+  },
+  {
+   "chart_name": "Sale Price vs Modal Mandi Price",
+   "label": "Sale Price vs Modal Mandi Price",
+   "type": "Report"
+  }
+ ],
+ "content": "[{\"id\":\"q4mhuzdwqf\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Batches at Risk\",\"label\":\"Batches at Risk (7 days)\",\"type\":\"report\",\"report\":\"Batches Nearing Expiry\",\"function\":\"Count\",\"filter_from\":\"frappe.datetime.nowdate()\",\"filter_to\":\"frappe.datetime.nowdate()\",\"color\":\"#e74c3c\"}},{\"id\":\"cy8avdyicb\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Spoilage Loss\",\"label\":\"This Month's Spoilage Loss (₹)\",\"type\":\"report\",\"report\":\"Spoilage Loss Value by Commodity/Month\",\"function\":\"Sum\",\"column\":\"loss_value\",\"filter_from\":\"frappe.datetime.month_start()\",\"filter_to\":\"frappe.datetime.nowdate()\",\"color\":\"#f39c12\"}},{\"id\":\"j7tvyv9vfs\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Storage Utilization\",\"label\":\"Storage Utilization %\",\"type\":\"report\",\"report\":\"Cold Storage Utilization\",\"function\":\"Average\",\"column\":\"utilization_pct\",\"filter_from\":\"frappe.datetime.nowdate()\",\"color\":\"#1abc9c\"}},{\"id\":\"xw28zr9ymt\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Transit Breaches\",\"label\":\"Transit Breaches (30 days)\",\"type\":\"report\",\"report\":\"Transit Breach Log\",\"function\":\"Count\",\"filter_from\":\"frappe.datetime.add_days(frappe.datetime.nowdate(), -30)\",\"filter_to\":\"frappe.datetime.nowdate()\",\"color\":\"#e67e22\"}},{\"id\":\"zd45hft7kq\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"FEFO Overrides\",\"label\":\"FEFO Overrides (30 days)\",\"type\":\"report\",\"report\":\"FEFO Override Log\",\"function\":\"Count\",\"filter_from\":\"frappe.datetime.add_days(frappe.datetime.nowdate(), -30)\",\"filter_to\":\"frappe.datetime.nowdate()\",\"color\":\"#9b59b6\"}},{\"id\":\"b4mf39vx8r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Units\",\"label\":\"Cold Storage Units\",\"type\":\"DocType\",\"doc_type\":\"Cold Storage Unit\",\"format\":\"List\",\"color\":\"#1abc9c\"}},{\"id\":\"p2kh46wq9s\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Receipt\",\"label\":\"Goods Received\",\"type\":\"DocType\",\"doc_type\":\"Purchase Receipt\",\"format\":\"New\",\"color\":\"#3498db\"}},{\"id\":\"r8tcv5hx3n\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Quality Inspection\",\"label\":\"Quality Inspection\",\"type\":\"DocType\",\"doc_type\":\"Quality Inspection\",\"format\":\"New\",\"color\":\"#2ecc71\"}},{\"id\":\"m1dg6yq4fp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Spoilage Risk\",\"label\":\"Batch Spoilage Risk\",\"type\":\"Report\",\"report\":\"Batches Nearing Expiry\",\"color\":\"#e74c3c\"}},{\"id\":\"w9jz8t7h6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Transit Log\",\"label\":\"Delivery Transit Log\",\"type\":\"DocType\",\"doc_type\":\"Delivery Transit Log\",\"format\":\"List\",\"color\":\"#e67e22\"}},{\"id\":\"v5n4m3k2l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Delivery Transit Log\",\"label\":\"New Transit Log\",\"type\":\"DocType\",\"doc_type\":\"Delivery Transit Log\",\"format\":\"New\",\"color\":\"#9b59b6\"}},{\"id\":\"q1w2e3r4t5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mandi Prices\",\"label\":\"Mandi Prices\",\"type\":\"DocType\",\"doc_type\":\"Mandi Price Reference\",\"format\":\"List\",\"color\":\"#16a085\"}},{\"id\":\"y6u7i8o9p0\",\"type\":\"spacer\",\"data\":{}},{\"id\":\"a1s2d3f4g5\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Price vs Modal Mandi Price\",\"label\":\"Sale Price vs. Modal Mandi Price\",\"chart_type\":\"Report\",\"report_name\":\"Sale Price vs. Modal Mandi Price\",\"width\":\"full\",\"height\":250}}]",
+ "custom_app": "agri_coldchain",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "cold-chain",
+ "indicator_color": "green",
+ "is_default": 0,
+ "is_hidden": 0,
+ "label": "Cold Chain Operations",
+ "links": [],
+ "modified": "2025-01-01 00:00:00",
+ "module": "Agri Cold Chain",
+ "name": "Cold Chain Operations",
+ "number_cards": [
+  {
+   "label": "Batches at Risk (7 days)",
+   "type": "Report",
+   "report_name": "Batches Nearing Expiry",
+   "function": "Count",
+   "color": "#e74c3c"
+  },
+  {
+   "label": "This Month's Spoilage Loss (₹)",
+   "type": "Report",
+   "report_name": "Spoilage Loss Value by Commodity/Month",
+   "function": "Sum",
+   "column": "loss_value",
+   "color": "#f39c12"
+  },
+  {
+   "label": "Storage Utilization %",
+   "type": "Report",
+   "report_name": "Cold Storage Utilization",
+   "function": "Average",
+   "column": "utilization_pct",
+   "color": "#1abc9c"
+  },
+  {
+   "label": "Transit Breaches (30 days)",
+   "type": "Report",
+   "report_name": "Transit Breach Log",
+   "function": "Count",
+   "color": "#e67e22"
+  },
+  {
+   "label": "FEFO Overrides (30 days)",
+   "type": "Report",
+   "report_name": "FEFO Override Log",
+   "function": "Count",
+   "color": "#9b59b6"
+  }
+ ],
+ "public": 1,
+ "roles": [],
+ "sequence_id": 0,
+ "shortcuts": [
+  {
+   "label": "Cold Storage Units",
+   "type": "DocType",
+   "doc_type": "Cold Storage Unit",
+   "format": "List",
+   "color": "#1abc9c"
+  },
+  {
+   "label": "Goods Received (PR)",
+   "type": "DocType",
+   "doc_type": "Purchase Receipt",
+   "format": "New",
+   "color": "#3498db"
+  },
+  {
+   "label": "Quality Inspection",
+   "type": "DocType",
+   "doc_type": "Quality Inspection",
+   "format": "New",
+   "color": "#2ecc71"
+  },
+  {
+   "label": "Batch Spoilage Risk",
+   "type": "Report",
+   "report_name": "Batches Nearing Expiry",
+   "color": "#e74c3c"
+  },
+  {
+   "label": "Delivery Transit Log",
+   "type": "DocType",
+   "doc_type": "Delivery Transit Log",
+   "format": "List",
+   "color": "#e67e22"
+  },
+  {
+   "label": "New Transit Log",
+   "type": "DocType",
+   "doc_type": "Delivery Transit Log",
+   "format": "New",
+   "color": "#9b59b6"
+  },
+  {
+   "label": "Mandi Prices",
+   "type": "DocType",
+   "doc_type": "Mandi Price Reference",
+   "format": "List",
+   "color": "#16a085"
+  }
+ ],
+ "title": "Cold Chain Operations"
+}

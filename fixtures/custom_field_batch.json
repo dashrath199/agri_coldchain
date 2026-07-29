@@ -1,0 +1,29 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Batch",
+  "fieldname": "custom_grade",
+  "fieldtype": "Select",
+  "label": "Quality Grade",
+  "insert_after": "description",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "options": "\nA\nB\nC\nReject",
+  "read_only": 1,
+  "reqd": 0,
+  "description": "Quality grade pushed from Quality Inspection on intake"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Batch",
+  "fieldname": "custom_adjusted_shelf_life_days",
+  "fieldtype": "Int",
+  "label": "Adjusted Shelf Life (Days)",
+  "insert_after": "custom_grade",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "read_only": 1,
+  "reqd": 0,
+  "description": "Shelf life adjusted for quality grade, pushed from Quality Inspection"
+ }
+]

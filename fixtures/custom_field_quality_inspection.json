@@ -1,0 +1,57 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Quality Inspection",
+  "fieldname": "custom_moisture_percent",
+  "fieldtype": "Float",
+  "label": "Moisture (%)",
+  "insert_after": "custom_reading_7",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "precision": "1",
+  "read_only": 0,
+  "reqd": 0,
+  "description": "Moisture percentage measured during inspection"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Quality Inspection",
+  "fieldname": "custom_visual_defect_percent",
+  "fieldtype": "Float",
+  "label": "Visual Defect (%)",
+  "insert_after": "custom_moisture_percent",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "precision": "1",
+  "read_only": 0,
+  "reqd": 0,
+  "description": "Percentage of visual defects detected"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Quality Inspection",
+  "fieldname": "custom_grade",
+  "fieldtype": "Select",
+  "label": "Grade",
+  "insert_after": "custom_visual_defect_percent",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "options": "\nA\nB\nC\nReject",
+  "read_only": 0,
+  "reqd": 1,
+  "description": "Quality grade assigned to this inspection"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Quality Inspection",
+  "fieldname": "custom_adjusted_shelf_life_days",
+  "fieldtype": "Int",
+  "label": "Adjusted Shelf Life (Days)",
+  "insert_after": "custom_grade",
+  "module": "Agri Cold Chain",
+  "owner": "Administrator",
+  "read_only": 1,
+  "reqd": 0,
+  "description": "Computed shelf life based on grade: A=100%, B=70%, C=40%, Reject=0%"
+ }
+]
