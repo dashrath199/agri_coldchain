@@ -40,6 +40,8 @@ def execute():
     print("=" * 60)
     print("  AGRI COLD CHAIN — Demo Data Cleanup")
     print("=" * 60)
+    print("  ⚠️  WARNING: This permanently deletes ALL demo data.")
+    print("=" * 60)
 
     try:
         _delete_transit_logs()
@@ -48,7 +50,6 @@ def execute():
         _delete_delivery_notes()
         _delete_sales_invoices()
         _delete_quality_inspections()
-        _delete_sales_invoice_items()
         _delete_batches()
         _delete_mandi_prices()
         _delete_cold_storage_units()
@@ -227,16 +228,6 @@ def _delete_sales_invoices():
     frappe.db.commit()
 
 
-def _delete_sales_invoice_items():
-    """Clean up any orphaned SI items (child table)."""
-    # Delete SI items where parent doesn't exist
-    frappe.db.sql("""
-        DELETE FROM `tabSales Invoice Item`
-        WHERE parent NOT IN (SELECT name FROM `tabSales Invoice`)
-    """)
-    frappe.db.commit()
-
-
 def _delete_delivery_notes():
     """Delete demo Delivery Notes (for demo customers)."""
     for customer in DEMO_CUSTOMERS:
@@ -259,20 +250,12 @@ def _delete_delivery_notes():
 
 def _delete_stock_entries():
     """Delete demo Stock Entries (for CC- items)."""
-    names = frappe.db.get_all(
-        "Stock Entry",
-        filters={
-            "items.item_code": ["like", "CC-%"]
-        } if hasattr(frappe.db, 'get_all') else {},
-        pluck="name", limit=200
-    ) or []
-    # Fallback: get all stock entries and filter
-    if not names:
-        all_se = frappe.db.get_all("Stock Entry", pluck="name", limit=200)
-        for name in all_se:
-            items = frappe.db.get_all("Stock Entry Detail", filters={"parent": name}, fields=["item_code"], limit=1)
-            if items and items[0].item_code.startswith("CC-"):
-                names.append(name)
+    names = []
+    all_se = frappe.db.get_all("Stock Entry", pluck="name", limit=200)
+    for name in all_se:
+        items = frappe.db.get_all("Stock Entry Detail", filters={"parent": name}, fields=["item_code"], limit=1)
+        if items and items[0].item_code.startswith("CC-"):
+            names.append(name)
     for name in names:
         try:
             doc = frappe.get_doc("Stock Entry", name)
