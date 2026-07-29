@@ -900,6 +900,7 @@ def ensure_stock_entries(items, warehouses):
 				"uom": uom,
 				"s_warehouse": s_wh,
 				"t_warehouse": t_wh,
+				"allow_zero_valuation_rate": 1,
 			})
 
 		if not se_items:
