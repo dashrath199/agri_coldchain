@@ -57,7 +57,7 @@
    "format": "{} Today",
    "icon": "trending-up",
    "link_to": "Mandi Price Reference",
-   "stats_filter": "[[\"Mandi Price Reference\",\"price_date\",\"=\",\"Today\"]]",
+   "stats_filter": "[]",
    "idx": 3
   },
   {
@@ -97,7 +97,7 @@
    "format": "{} Today",
    "icon": "check-circle",
    "link_to": "Quality Inspection",
-   "stats_filter": "[[\"Quality Inspection\",\"creation\",\"=\",\"Today\"]]",
+   "stats_filter": "[]",
    "idx": 7
   },
   {
@@ -117,7 +117,7 @@
    "format": "{} Today",
    "icon": "truck",
    "link_to": "Delivery Note",
-   "stats_filter": "[[\"Delivery Note\",\"creation\",\"=\",\"Today\"]]",
+   "stats_filter": "[]",
    "idx": 9
   },
   {
