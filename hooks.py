@@ -20,6 +20,13 @@ doctype_treenodes = {}
 # Fixtures — Custom Fields, Workspace, Print Format
 # ---------------------------------------
 fixtures = [
+    # Number Cards must be imported before Workspace (link validation)
+    {"dt": "Number Card", "filters": [
+        ["module", "=", "Agri Cold Chain"]
+    ]},
+    {"dt": "Dashboard Chart", "filters": [
+        ["module", "=", "Agri Cold Chain"]
+    ]},
     {"dt": "Custom Field", "filters": [
         ["module", "=", "Agri Cold Chain"]
     ]},

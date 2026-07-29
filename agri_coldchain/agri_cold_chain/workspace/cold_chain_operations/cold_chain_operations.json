@@ -1,6 +1,12 @@
 {
- "charts": [],
- "content": "[{\"id\":\"section-inventory\",\"type\":\"header\",\"data\":{\"text\":\"❄️ Cold Storage Health\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-units\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Units\",\"col\":4}},{\"id\":\"shortcut-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Transit Log\",\"col\":4}},{\"id\":\"shortcut-qi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"section-receive\",\"type\":\"header\",\"data\":{\"text\":\"📉 Batch & Price Trends\",\"level\":4,\"col\":12}},{\"id\":\"report-spoilage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Spoilage Risk\",\"col\":4}},{\"id\":\"report-mandi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sale vs Mandi Price\",\"col\":4}},{\"id\":\"report-supplier\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier Grading\",\"col\":4}},{\"id\":\"section-operations\",\"type\":\"header\",\"data\":{\"text\":\"🚛 Intake & Dispatch\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Goods Received (PR)\",\"col\":4}},{\"id\":\"shortcut-mandi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mandi Prices\",\"col\":4}},{\"id\":\"shortcut-new-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Transit Log\",\"col\":4}},{\"id\":\"section-audit\",\"type\":\"header\",\"data\":{\"text\":\"🔍 Compliance & Analytics\",\"level\":4,\"col\":12}},{\"id\":\"report-util\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Utilization\",\"col\":4}},{\"id\":\"report-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breach Log\",\"col\":4}},{\"id\":\"report-fefo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FEFO Override Log\",\"col\":4}},{\"id\":\"report-loss\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Spoilage Loss\",\"col\":4}}]",
+ "charts": [
+  {"chart_name": "Batches Nearing Expiry"},
+  {"chart_name": "Sale Price vs Modal Mandi Price"},
+  {"chart_name": "Cold Storage Utilization"},
+  {"chart_name": "Storage by Zone Type"},
+  {"chart_name": "Transit Breaches Trend"}
+ ],
+ "content": "[{\"id\":\"section-overview\",\"type\":\"header\",\"data\":{\"text\":\"❄️ Cold Storage Health\",\"level\":4,\"col\":12}},{\"id\":\"card-active-units\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Cold Storage Units\",\"col\":3}},{\"id\":\"card-temp-breach\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Temperature Breaches (30 days)\",\"col\":3}},{\"id\":\"card-transit-today\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Transit Logs\",\"col\":3}},{\"id\":\"card-mandi-today\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Mandi Prices Today\",\"col\":3}},{\"id\":\"card-fefo\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"FEFO Overrides (30 days)\",\"col\":3}},{\"id\":\"section-charts\",\"type\":\"header\",\"data\":{\"text\":\"📉 Batch & Price Trends\",\"level\":4,\"col\":12}},{\"id\":\"chart-expiry\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Batches Nearing Expiry\",\"col\":6}},{\"id\":\"chart-mandi\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Price vs Modal Mandi Price\",\"col\":6}},{\"id\":\"chart-utilization\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Cold Storage Utilization\",\"col\":6}},{\"id\":\"chart-zone\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Storage by Zone Type\",\"col\":6}},{\"id\":\"section-operations\",\"type\":\"header\",\"data\":{\"text\":\"🚛 Intake & Dispatch\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-units\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Units\",\"col\":4}},{\"id\":\"shortcut-pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Goods Received (PR)\",\"col\":4}},{\"id\":\"shortcut-qi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"shortcut-mandi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mandi Prices\",\"col\":4}},{\"id\":\"shortcut-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Transit Log\",\"col\":4}},{\"id\":\"shortcut-new-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Transit Log\",\"col\":4}},{\"id\":\"section-analytics\",\"type\":\"header\",\"data\":{\"text\":\"🔍 Compliance & Analytics\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-spoilage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Spoilage Risk\",\"col\":4}},{\"id\":\"shortcut-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breach Log\",\"col\":4}},{\"id\":\"shortcut-fefo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FEFO Override Log\",\"col\":4}},{\"id\":\"shortcut-loss\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Spoilage Loss\",\"col\":4}},{\"id\":\"shortcut-utilization\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Utilization\",\"col\":4}},{\"id\":\"shortcut-supplier\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier Grading\",\"col\":4}},{\"id\":\"shortcut-chart-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breaches Trend\",\"col\":4}}]",
  "creation": "2025-01-01 12:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -12,18 +18,57 @@
  "is_default": 0,
  "is_hidden": 0,
  "label": "Cold Chain Operations",
- "links": [],
+ "links": [
+  {
+   "type": "URL",
+   "label": "Agmarknet Mandi Portal",
+   "icon": "external-link",
+   "link_to": "https://agmarknet.gov.in",
+   "idx": 1
+  },
+  {
+   "type": "DocType",
+   "label": "HACCP Batch Certificate",
+   "icon": "file-text",
+   "link_to": "Print Format",
+   "idx": 2
+  },
+  {
+   "type": "Report",
+   "label": "Stock Ageing Report",
+   "icon": "bar-chart",
+   "link_to": "Stock Ageing",
+   "idx": 3
+  },
+  {
+   "type": "URL",
+   "label": "FSSAI Compliance Guide",
+   "icon": "shield",
+   "link_to": "/app/print-format/HACCP%20FSSAI%20Batch%20Certificate",
+   "idx": 4
+  }
+ ],
  "module": "Agri Cold Chain",
  "modified": "2025-01-01 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "Cold Chain Operations",
- "number_cards": [],
+ "number_cards": [
+  {"number_card_name": "Active Cold Storage Units"},
+  {"number_card_name": "Temperature Breaches (30 days)"},
+  {"number_card_name": "Today's Transit Logs"},
+  {"number_card_name": "Mandi Prices Today"},
+  {"number_card_name": "FEFO Overrides (30 days)"}
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
  "public_for": "",
  "restrict_to_domain": "",
- "roles": [],
+ "roles": [
+  {"role": "Cold Storage Manager"},
+  {"role": "Quality Inspector"},
+  {"role": "Warehouse Operator"}
+ ],
  "sequence_idx": 0,
  "shortcuts": [
   {
@@ -104,11 +149,11 @@
   {
    "color": "#f39c12",
    "doc_view": "",
-   "label": "Sale vs Mandi Price",
+   "label": "Transit Breaches Trend",
    "type": "Report",
-   "format": "View Report",
+   "format": "View Chart",
    "icon": "bar-chart",
-   "link_to": "Sale Price vs. Modal Mandi Price",
+   "link_to": "Transit Breaches Trend",
    "idx": 8
   },
   {

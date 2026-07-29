@@ -1,0 +1,13 @@
+{
+ "doctype": "Dashboard Chart",
+ "name": "Cold Storage Utilization",
+ "chart_name": "Cold Storage Utilization",
+ "chart_type": "Report",
+ "report_name": "Cold Storage Utilization",
+ "type": "Bar",
+ "filters_json": "[]",
+ "timespan": "Last Month",
+ "time_interval": "Daily",
+ "module": "Agri Cold Chain",
+ "is_public": 1
+}

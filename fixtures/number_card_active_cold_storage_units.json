@@ -1,0 +1,12 @@
+{
+ "doctype": "Number Card",
+ "name": "Active Cold Storage Units",
+ "label": "Active Cold Storage Units",
+ "document_type": "Cold Storage Unit",
+ "type": "Count",
+ "filters_json": "[[\"Cold Storage Unit\",\"is_active\",\"=\",1]]",
+ "color": "#1abc9c",
+ "show_percentage_change": 1,
+ "stats_time_interval": "Daily",
+ "module": "Agri Cold Chain"
+}

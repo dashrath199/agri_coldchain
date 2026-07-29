@@ -1,0 +1,12 @@
+{
+ "doctype": "Number Card",
+ "name": "Today's Transit Logs",
+ "label": "Today's Transit Logs",
+ "document_type": "Delivery Transit Log",
+ "type": "Count",
+ "filters_json": "[[\"Delivery Transit Log\",\"creation\",\"=\",\"Today\"]]",
+ "color": "#3498db",
+ "show_percentage_change": 1,
+ "stats_time_interval": "Daily",
+ "module": "Agri Cold Chain"
+}
