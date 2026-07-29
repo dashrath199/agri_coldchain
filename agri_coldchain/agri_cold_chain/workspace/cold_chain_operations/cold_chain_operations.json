@@ -18,24 +18,7 @@
  "is_default": 0,
  "is_hidden": 0,
  "label": "Cold Chain Operations",
- "links": [
-  {
-   "type": "Link",
-   "link_type": "Report",
-   "label": "Stock Ageing Report",
-   "icon": "bar-chart",
-   "link_to": "Stock Ageing",
-   "idx": 1
-  },
-  {
-   "type": "Link",
-   "link_type": "DocType",
-   "label": "Supplier Purchase Receipts",
-   "icon": "file",
-   "link_to": "Purchase Receipt",
-   "idx": 2
-  }
- ],
+ "links": [],
  "module": "Agri Cold Chain",
  "modified": "2025-01-01 12:00:00.000000",
  "modified_by": "Administrator",
