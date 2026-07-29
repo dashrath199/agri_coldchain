@@ -32,7 +32,6 @@
  "shortcuts": [
   {
    "color": "#1abc9c",
-   "doc_view": "",
    "label": "Cold Storage Units",
    "type": "DocType",
    "format": "{} Active",
@@ -43,7 +42,6 @@
   },
   {
    "color": "#3498db",
-   "doc_view": "",
    "label": "Delivery Transit Log",
    "type": "DocType",
    "format": "{} Logged",
@@ -54,7 +52,6 @@
   },
   {
    "color": "#16a085",
-   "doc_view": "",
    "label": "Mandi Prices",
    "type": "DocType",
    "format": "{} Today",
@@ -65,7 +62,6 @@
   },
   {
    "color": "#8e44ad",
-   "doc_view": "",
    "label": "Perishable Items",
    "type": "DocType",
    "format": "{} Tracked",
@@ -76,7 +72,6 @@
   },
   {
    "color": "#2ecc71",
-   "doc_view": "",
    "label": "Goods Received (PR)",
    "type": "DocType",
    "format": "{} Draft",
@@ -87,7 +82,6 @@
   },
   {
    "color": "#e67e22",
-   "doc_view": "",
    "label": "Purchase Orders",
    "type": "DocType",
    "format": "{} Ordered",
@@ -98,7 +92,6 @@
   },
   {
    "color": "#2ecc71",
-   "doc_view": "",
    "label": "Quality Inspection",
    "type": "DocType",
    "format": "{} Today",
@@ -109,7 +102,6 @@
   },
   {
    "color": "#3498db",
-   "doc_view": "",
    "label": "Suppliers",
    "type": "DocType",
    "format": "{} Active",
@@ -120,7 +112,6 @@
   },
   {
    "color": "#1abc9c",
-   "doc_view": "",
    "label": "Delivery Notes",
    "type": "DocType",
    "format": "{} Today",
@@ -131,7 +122,6 @@
   },
   {
    "color": "#f39c12",
-   "doc_view": "",
    "label": "Sales Orders",
    "type": "DocType",
    "format": "{} Pending",
@@ -142,7 +132,6 @@
   },
   {
    "color": "#e74c3c",
-   "doc_view": "",
    "label": "Sales Invoices",
    "type": "DocType",
    "format": "{} Unpaid",
@@ -153,7 +142,6 @@
   },
   {
    "color": "#9b59b6",
-   "doc_view": "",
    "label": "New Transit Log",
    "type": "DocType",
    "format": "+ New",
@@ -163,7 +151,6 @@
   },
   {
    "color": "#3498db",
-   "doc_view": "",
    "label": "Stock Entries",
    "type": "DocType",
    "format": "{} Draft",
@@ -174,7 +161,6 @@
   },
   {
    "color": "#16a085",
-   "doc_view": "",
    "label": "Batch Records",
    "type": "DocType",
    "format": "{} Active",
@@ -185,7 +171,6 @@
   },
   {
    "color": "#8e44ad",
-   "doc_view": "",
    "label": "FEFO Override Log",
    "type": "Report",
    "format": "View Report",
@@ -195,7 +180,6 @@
   },
   {
    "color": "#f39c12",
-   "doc_view": "",
    "label": "Stock Ageing",
    "type": "Report",
    "format": "View Report",
@@ -205,62 +189,56 @@
   },
   {
    "color": "#e74c3c",
-   "doc_view": "",
    "label": "Batch Spoilage Risk",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "alert-triangle",
-   "link_to": "Batches Nearing Expiry",
+   "link_to": "/app/query-report/Batches%20Nearing%20Expiry",
    "idx": 17
   },
   {
    "color": "#3498db",
-   "doc_view": "",
    "label": "Cold Storage Utilization",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "pie-chart",
-   "link_to": "Cold Storage Utilization",
+   "link_to": "/app/query-report/Cold%20Storage%20Utilization",
    "idx": 18
   },
   {
    "color": "#f39c12",
-   "doc_view": "",
    "label": "Sale vs Mandi Price",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "bar-chart",
-   "link_to": "Sale Price vs. Modal Mandi Price",
+   "link_to": "/app/query-report/Sale%20Price%20vs.%20Modal%20Mandi%20Price",
    "idx": 19
   },
   {
    "color": "#2ecc71",
-   "doc_view": "",
    "label": "Supplier Grading",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "award",
-   "link_to": "Supplier Grading & Settlement",
+   "link_to": "/app/query-report/Supplier%20Grading%20%26%20Settlement",
    "idx": 20
   },
   {
    "color": "#e74c3c",
-   "doc_view": "",
    "label": "Transit Breach Log",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "alert-circle",
-   "link_to": "Transit Breach Log",
+   "link_to": "/app/query-report/Transit%20Breach%20Log",
    "idx": 21
   },
   {
    "color": "#e67e22",
-   "doc_view": "",
    "label": "Spoilage Loss Report",
-   "type": "Report",
+   "type": "URL",
    "format": "View Report",
    "icon": "dollar-sign",
-   "link_to": "Spoilage Loss Value by Commodity/Month",
+   "link_to": "/app/query-report/Spoilage%20Loss%20Value%20by%20Commodity%2FMonth",
    "idx": 22
   }
  ],
