@@ -150,10 +150,10 @@
    "color": "#f39c12",
    "doc_view": "",
    "label": "Transit Breaches Trend",
-   "type": "Report",
+   "type": "URL",
    "format": "View Chart",
    "icon": "bar-chart",
-   "link_to": "Transit Breaches Trend",
+   "link_to": "/app/dashboard-view/Transit%20Breaches%20Trend",
    "idx": 8
   },
   {
