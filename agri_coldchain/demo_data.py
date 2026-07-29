@@ -18,6 +18,9 @@ def execute():
 	print("=" * 60)
 
 	try:
+		# ── 0. Fix any missing DB columns ──
+		_fix_missing_columns()
+
 		# ── 1. Item Groups ──
 		item_groups = _ensure_item_groups()
 
@@ -49,13 +52,16 @@ def execute():
 		# ── 10. Sales Invoices ──
 		sales_invoices = _ensure_sales_invoices(items, customers, warehouses)
 
-		# ── 11. Delivery Transit Logs ──
-		transit_logs = _ensure_transit_logs(sales_invoices)
+		# ── 11. Delivery Notes (created directly from Sales Invoices) ──
+		delivery_notes = _ensure_delivery_notes(sales_invoices, items, warehouses)
 
-		# ── 12. FEFO Override Logs ──
-		fefo_overrides = _ensure_fefo_overrides(sales_invoices, items)
+		# ── 12. Delivery Transit Logs ──
+		transit_logs = _ensure_transit_logs(delivery_notes)
 
-		# ── 13. Spoilage Write-Off ──
+		# ── 13. FEFO Override Logs ──
+		fefo_overrides = _ensure_fefo_overrides(delivery_notes, items)
+
+		# ── 14. Spoilage Write-Off ──
 		spoilage_entry = _ensure_spoilage_write_off(items, warehouses, batches)
 
 		print()
@@ -70,6 +76,7 @@ def execute():
 		print("  Stock Entries: {}".format(len(stock_entries)))
 		print("  Quality Inspections: {}".format(len(quality_inspections)))
 		print("  Sales Invoices: {}".format(len(sales_invoices)))
+		print("  Delivery Notes: {}".format(len(delivery_notes)))
 		print("  Transit Logs: {}".format(len(transit_logs)))
 		print("  FEFO Override Logs: {}".format(len(fefo_overrides)))
 		print("  Spoilage Write-Off: {}".format("Yes" if spoilage_entry else "No"))
@@ -97,6 +104,30 @@ def _get_wh_name(warehouse_name):
 	if abbr:
 		return "{} - {}".format(warehouse_name, abbr)
 	return warehouse_name
+
+
+def _fix_missing_columns():
+	"""Add missing DB columns that ERPNext v15 expects but may not exist."""
+	import frappe.database.database as db_module
+	columns_to_check = [
+		("tabContact", "is_billing_contact", "INT(1) NOT NULL DEFAULT 0"),
+		("tabContact", "is_primary_contact", "INT(1) NOT NULL DEFAULT 0"),
+	]
+	for table, column, definition in columns_to_check:
+		try:
+			frappe.db.sql(
+				"SELECT {} FROM {} LIMIT 0".format(column, table)
+			)
+		except Exception:
+			# Column doesn't exist — add it
+			try:
+				frappe.db.sql(
+					"ALTER TABLE {} ADD COLUMN {} {};".format(table, column, definition)
+				)
+				print("  DB Fix: Added column {}.{} to database".format(table, column))
+			except Exception as alter_err:
+				print("  DB Fix: Could not add {}.{}: {}".format(table, column, str(alter_err)))
+	frappe.db.commit()
 
 
 # ═══════════════════════════════════════════════════════
@@ -556,17 +587,31 @@ def _ensure_quality_inspections(items):
 
 
 # ═══════════════════════════════════════════════════════
-#  10. Sales Invoices (directly, bypassing SO → DN pipeline)
+#  10. Sales Invoices (directly with accounts lookup + tax row)
 # ═══════════════════════════════════════════════════════
 
 def _ensure_sales_invoices(items, customers, warehouses):
 	today_dt = today()
-	debit_to = frappe.db.get_value("Account", {"account_type": "Debtor", "is_group": 0}, "name")
-	income_account = frappe.db.get_value("Account", {"account_type": "Income Account", "is_group": 0}, "name")
+	company = _get_company()
+	debit_to = frappe.db.get_value("Account", {
+		"account_type": "Debtor", "is_group": 0, "company": company,
+	}, "name") or frappe.db.get_value("Account", {
+		"account_type": "Debtor", "is_group": 0,
+	}, "name")
+	income_account = frappe.db.get_value("Account", {
+		"account_type": "Income Account", "is_group": 0, "company": company,
+	}, "name") or frappe.db.get_value("Account", {
+		"account_type": "Income Account", "is_group": 0,
+	}, "name")
 
 	if not debit_to or not income_account:
 		print("  SI: No debtor/income accounts found — skipping")
 		return []
+
+	# Find an Output Tax account
+	tax_account = frappe.db.get_value("Account", {
+		"account_type": "Tax", "is_group": 0, "company": company,
+	}, "name") or None
 
 	invoice_data = [
 		{
@@ -627,6 +672,13 @@ def _ensure_sales_invoices(items, customers, warehouses):
 				"items": si_items,
 				"debit_to": debit_to,
 			})
+			if tax_account:
+				si.append("taxes", {
+					"charge_type": "On Net Total",
+					"account_head": tax_account,
+					"description": "GST @ 5%",
+					"rate": 5.0,
+				})
 			si.insert(ignore_permissions=True)
 			si.submit()
 			print("  SI: {} — {}, {} items".format(si.name, customer, len(si_items)))
@@ -639,42 +691,134 @@ def _ensure_sales_invoices(items, customers, warehouses):
 
 
 # ═══════════════════════════════════════════════════════
-#  11. Delivery Transit Logs
+#  11. Delivery Notes (created directly from Sales Invoices)
 # ═══════════════════════════════════════════════════════
 
-def _ensure_transit_logs(sales_invoices):
+def _ensure_delivery_notes(sales_invoices, items, warehouses):
+	"""Create Delivery Notes referencing submitted Sales Invoices."""
 	if not sales_invoices:
-		print("  Transit: No sales invoices for transit logs")
+		print("  DN: No sales invoices to deliver")
 		return []
 
-	data = [
-		(0, "Swift Cargo Logistics", "MH-12-AB-1234", 4.5, 6.0),
-		(0, "Rapid Chill Transport", "MH-14-XY-5678", 3.8, 4.2),
+	company = _get_company()
+
+	dn_data = [
+		{
+			"si_idx": 0,
+			"customer": "FreshMart Retail Chain",
+			"posting_date": None,  # will use SI posting date
+			"items": [
+				("Pasteurised Milk (Full Cream)", 100, "CS-Chilled"),
+				("Fresh Paneer (Cottage Cheese)", 50, "CS-Chilled"),
+				("Flavoured Curd (Mango)", 200, "CS-Chilled"),
+			],
+		},
+		{
+			"si_idx": 1,
+			"customer": "Star Hotel & Convention Centre",
+			"posting_date": None,
+			"items": [
+				("Alphonso Mango (Hapus)", 200, "CS-Ambient"),
+				("Red Delicious Apples", 50, "CS-Chilled"),
+				("Farm Fresh Eggs (Tray)", 30, "CS-Ambient"),
+			],
+		},
 	]
 
 	created = []
-	for si_idx, transporter, vehicle, disp_temp, arr_temp in data:
+	for entry in dn_data:
+		si_idx = entry["si_idx"]
 		if si_idx >= len(sales_invoices):
 			continue
 		si_name = sales_invoices[si_idx]
 
-		if frappe.db.exists("Delivery Transit Log", {"delivery_note": si_name}):
+		# Get SI posting date
+		si_date = frappe.db.get_value("Sales Invoice", si_name, "posting_date")
+
+		dn_items = []
+		for item_name, qty, wh_key in entry["items"]:
+			item_code = items.get(item_name)
+			warehouse = warehouses.get(wh_key)
+			if not item_code or not warehouse:
+				continue
+			dn_items.append({
+				"item_code": item_code,
+				"qty": qty,
+				"warehouse": warehouse,
+				"against_sales_invoice": si_name,
+			})
+
+		if not dn_items:
+			continue
+
+		# Check if DN already exists for this SI
+		if frappe.db.exists("Delivery Note", {
+			"customer": entry["customer"],
+			"against_sales_invoice": si_name,
+		}):
+			print("  DN: {} (from {}) — Already exists".format(entry["customer"], si_name))
+			existing = frappe.db.get_value("Delivery Note", {
+				"customer": entry["customer"],
+				"against_sales_invoice": si_name,
+			}, "name")
+			created.append(existing)
+			continue
+
+		try:
+			dn = frappe.get_doc({
+				"doctype": "Delivery Note",
+				"customer": entry["customer"],
+				"posting_date": si_date,
+				"items": dn_items,
+			})
+			dn.insert(ignore_permissions=True, ignore_mandatory=True)
+			# Skip submission — just insert. Transit/Links still work for a Draft DN.
+			print("  DN: {} — {} items".format(dn.name, len(dn_items)))
+			created.append(dn.name)
+		except Exception as e:
+			print("  DN: {} — Skip ({})".format(entry["customer"], str(e)))
+
+	frappe.db.commit()
+	return created
+
+
+# ═══════════════════════════════════════════════════════
+#  12. Delivery Transit Logs (linked to Delivery Notes)
+# ═══════════════════════════════════════════════════════
+
+def _ensure_transit_logs(delivery_notes):
+	if not delivery_notes:
+		print("  Transit: No delivery notes for transit logs")
+		return []
+
+	created = []
+	dn_name = delivery_notes[0]
+
+	shipments = [
+		("Swift Cargo Logistics", "MH-12-AB-1234", 4.5, 6.0, 0),
+		("Rapid Chill Transport", "MH-14-XY-5678", 3.8, 4.2, 0),
+	]
+
+	for transporter, vehicle, disp_temp, arr_temp, breach in shipments:
+		if frappe.db.exists("Delivery Transit Log", {
+			"delivery_note": dn_name, "transporter_name": transporter,
+		}):
 			continue
 
 		try:
 			doc = frappe.get_doc({
 				"doctype": "Delivery Transit Log",
-				"delivery_note": si_name,
+				"delivery_note": dn_name,
 				"transporter_name": transporter,
 				"vehicle_no": vehicle,
 				"dispatch_temp": disp_temp,
 				"arrival_temp": arr_temp,
-				"temperature_breach": 1 if arr_temp > 6.0 else 0,
+				"temperature_breach": breach,
 			})
 			doc.insert(ignore_permissions=True)
-			status = "BREACH" if arr_temp > 6.0 else "OK"
-			print("  Transit: {} → {} — {}°C/{}°C ({})".format(
-				transporter, vehicle, disp_temp, arr_temp, status
+			status = "BREACH" if breach else "OK"
+			print("  Transit: {} for {} — {}°C/{}°C ({})".format(
+				transporter, dn_name, disp_temp, arr_temp, status
 			))
 			created.append(doc.name)
 		except Exception as e:
@@ -685,49 +829,87 @@ def _ensure_transit_logs(sales_invoices):
 
 
 # ═══════════════════════════════════════════════════════
-#  12. FEFO Override Logs
+#  13. FEFO Override Logs (linked to Delivery Notes)
 # ═══════════════════════════════════════════════════════
 
-def _ensure_fefo_overrides(sales_invoices, items):
-	if not sales_invoices:
-		print("  FEFO: No invoices for FEFO logs")
+def _ensure_fefo_overrides(delivery_notes, items):
+	"""Create Notification Log entries for FEFO overrides on Delivery Notes.
+
+	The FEFO Override Log report queries Notification Log where:
+	- document_type = 'Delivery Note'
+	- subject LIKE '%FEFO Override%'
+	- email_content has lines: 'Item:', 'Selected Batch:', 'Oldest Available Batch:'
+	"""
+	if not delivery_notes:
+		print("  FEFO: No delivery notes for FEFO logs")
 		return []
 
-	data = [
-		(0, "Pasteurised Milk (Full Cream)", "DEMO-BATCH-001", "DEMO-BATCH-002"),
-		(0, "Fresh Paneer (Cottage Cheese)", "DEMO-BATCH-003", "DEMO-BATCH-004"),
-	]
+	# Map actual batch names from the database
+	item_name_to_batch = {}
+	for item_name, item_code in items.items():
+		if item_code:
+			batch = frappe.db.get_value("Batch", {"item": item_code}, "name")
+			if batch:
+				item_name_to_batch[item_name] = batch
+
+	if not item_name_to_batch:
+		print("  FEFO: No batches found (Stock Entries may not have run yet)")
+		return []
 
 	created = []
-	for si_idx, item_name, sel_batch, old_batch in data:
-		if si_idx >= len(sales_invoices):
-			continue
-		si_name = sales_invoices[si_idx]
-		item_code = items.get(item_name)
+	for dn_name in delivery_notes[:2]:  # Max 2
+		# Pick items from this delivery note
+		dn_items = frappe.db.get_all(
+			"Delivery Note Item",
+			filters={"parent": dn_name},
+			fields=["item_code", "item_name"]
+		)
 
-		if frappe.db.exists("Notification Log", {
-			"document_type": "Sales Invoice",
-			"document_name": si_name,
-			"subject": ["like", "FEFO Override%"],
-		}):
+		if not dn_items:
 			continue
 
-		try:
-			log = frappe.get_doc({
-				"doctype": "Notification Log",
-				"subject": "FEFO Override — Sales Invoice {}".format(si_name),
-				"email_content": "FEFO Override: Item {}, Selected {}, Oldest {}".format(
-					item_code or item_name, sel_batch, old_batch
-				),
-				"document_type": "Sales Invoice",
-				"document_name": si_name,
-				"for_user": "Administrator",
-			})
-			log.insert(ignore_permissions=True)
-			print("  FEFO Log: For {} — Created".format(si_name))
-			created.append(log.name)
-		except Exception as e:
-			print("  FEFO Log: Skip ({})".format(str(e)))
+		for dn_item in dn_items:
+			item_code = dn_item.item_code
+			batch_name = frappe.db.get_value("Batch", {"item": item_code}, "name")
+			if not batch_name:
+				continue
+
+			# Find another batch to show as "oldest available"
+			other_batches = frappe.db.get_all(
+				"Batch",
+				filters={"item": item_code, "name": ["!=", batch_name]},
+				fields=["name", "expiry_date"],
+				order_by="expiry_date ASC",
+				limit=1,
+			)
+			oldest_batch = other_batches[0]["name"] if other_batches else "(none)"
+
+			if frappe.db.exists("Notification Log", {
+				"document_type": "Delivery Note",
+				"document_name": dn_name,
+				"subject": ["like", "FEFO Override%{}".format(item_code[:20])],
+			}):
+				continue
+
+			try:
+				log = frappe.get_doc({
+					"doctype": "Notification Log",
+					"subject": "FEFO Override — {} on {}".format(item_code, dn_name),
+					"email_content": (
+						"FEFO Override detected for this delivery.\n"
+						"Item: {}\n"
+						"Selected Batch: {}\n"
+						"Oldest Available Batch: {}"
+					).format(item_code, batch_name, oldest_batch),
+					"document_type": "Delivery Note",
+					"document_name": dn_name,
+					"for_user": "Administrator",
+				})
+				log.insert(ignore_permissions=True)
+				print("  FEFO Log: {} → {} / {}".format(dn_name, batch_name, oldest_batch))
+				created.append(log.name)
+			except Exception as e:
+				print("  FEFO Log: Skip ({})".format(str(e)))
 
 	frappe.db.commit()
 	return created
