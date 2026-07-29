@@ -47,7 +47,7 @@ def execute():
 		stock_entries = _ensure_stock_entries(items, warehouses, batches)
 
 		# ── 9. Quality Inspections ──
-		quality_inspections = _ensure_quality_inspections(items)
+		quality_inspections = _ensure_quality_inspections(items, stock_entries)
 
 		# ── 10. Sales Invoices ──
 		sales_invoices = _ensure_sales_invoices(items, customers, warehouses)
@@ -524,7 +524,7 @@ def _ensure_stock_entries(items, warehouses, batches):
 #  9. Quality Inspections
 # ═══════════════════════════════════════════════════════
 
-def _ensure_quality_inspections(items):
+def _ensure_quality_inspections(items, stock_entries=None):
 	today_dt = today()
 	# Get item codes for items that require QI
 	qi_items = []
@@ -543,6 +543,13 @@ def _ensure_quality_inspections(items):
 		("Frozen Chicken Breast", 72.0, 0.5, "A"),
 		("Frozen Green Peas", 78.0, 4.0, "B"),
 	]
+
+	# Find stock entries to use as reference for QIs
+	stock_refs = {}
+	for se in (stock_entries or []):
+		se_items = frappe.db.get_all("Stock Entry Detail", filters={"parent": se}, fields=["item_code"], limit=1)
+		if se_items:
+			stock_refs[se_items[0].item_code] = se
 
 	created = []
 	for item_name, moisture, defect, grade in data:
@@ -563,10 +570,16 @@ def _ensure_quality_inspections(items):
 			mult = {"A": 1.0, "B": 0.7, "C": 0.4, "Reject": 0.0}
 			adjusted = int(shelf_life * mult.get(grade, 1.0))
 
+			# Find a stock entry reference for this item
+			ref_name = stock_refs.get(item_code, "")
+
 			qi = frappe.get_doc({
 				"doctype": "Quality Inspection",
 				"inspection_type": "Incoming",
+				"reference_type": "Stock Entry",
+				"reference_name": ref_name,
 				"item_code": item_code,
+				"sample_size": 10,
 				"report_date": today_dt,
 				"inspected_by": "Administrator",
 				"custom_moisture_percent": moisture,
@@ -575,7 +588,7 @@ def _ensure_quality_inspections(items):
 				"custom_adjusted_shelf_life_days": adjusted,
 			})
 			qi.insert(ignore_permissions=True)
-			# Skip submit — Draft QI still shows data in reports
+			# Skip submit — Draft QI still shows data in workspace reports
 			print("  QI: {} — Grade {}, life {} days (draft)".format(item_name, grade, adjusted))
 			created.append(qi.name)
 		except Exception as e:
@@ -761,17 +774,27 @@ def _ensure_delivery_notes(sales_invoices, items, warehouses):
 		# Get SI posting date
 		si_date = frappe.db.get_value("Sales Invoice", si_name, "posting_date")
 
-		dn_items = []
+		# Query SI items to get row names for si_detail
+		si_item_map = {}
 		for item_name, qty, wh_key in entry["items"]:
 			item_code = items.get(item_name)
 			warehouse = warehouses.get(wh_key)
 			if not item_code or not warehouse:
 				continue
+
+			# Find the specific SI item row for this item_code
+			si_row = frappe.db.get_value(
+				"Sales Invoice Item",
+				{"parent": si_name, "item_code": item_code},
+				"name"
+			)
+
 			dn_items.append({
 				"item_code": item_code,
 				"qty": qty,
 				"warehouse": warehouse,
 				"against_sales_invoice": si_name,
+				"si_detail": si_row or "",
 			})
 
 		if not dn_items:
@@ -790,6 +813,27 @@ def _ensure_delivery_notes(sales_invoices, items, warehouses):
 			created.append(existing)
 			continue
 
+		# Build DN items with si_detail
+		dn_items = []
+		for item_name, qty, wh_key in entry["items"]:
+			item_code = items.get(item_name)
+			warehouse = warehouses.get(wh_key)
+			if not item_code or not warehouse:
+				continue
+
+			si_row = frappe.db.get_value(
+				"Sales Invoice Item",
+				{"parent": si_name, "item_code": item_code},
+				"name"
+			)
+			dn_items.append({
+				"item_code": item_code,
+				"qty": qty,
+				"warehouse": warehouse,
+				"against_sales_invoice": si_name,
+				"si_detail": si_row or "",
+			})
+
 		try:
 			dn = frappe.get_doc({
 				"doctype": "Delivery Note",
@@ -798,7 +842,6 @@ def _ensure_delivery_notes(sales_invoices, items, warehouses):
 				"items": dn_items,
 			})
 			dn.insert(ignore_permissions=True, ignore_mandatory=True)
-			# Skip submission — just insert. Transit/Links still work for a Draft DN.
 			print("  DN: {} — {} items".format(dn.name, len(dn_items)))
 			created.append(dn.name)
 		except Exception as e:
