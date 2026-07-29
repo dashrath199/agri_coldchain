@@ -153,7 +153,7 @@ def get_high_risk_batches():
             b.manufacturing_date,
             b.expiry_date,
             sbe.qty AS batch_qty,
-            i.custom_base_shelf_life_days AS base_shelf_life_days
+            i.shelf_life_in_days AS base_shelf_life_days
         FROM `tabSerial and Batch Bundle` sbb
         INNER JOIN `tabSerial and Batch Entry` sbe
             ON sbe.parent = sbb.name
@@ -162,8 +162,8 @@ def get_high_risk_batches():
         INNER JOIN `tabBatch` b
             ON b.name = sbe.batch_no
         WHERE
-            i.custom_base_shelf_life_days IS NOT NULL
-            AND i.custom_base_shelf_life_days > 0
+            i.shelf_life_in_days IS NOT NULL
+            AND i.shelf_life_in_days > 0
             AND b.manufacturing_date IS NOT NULL
             AND (
                 b.expiry_date IS NULL

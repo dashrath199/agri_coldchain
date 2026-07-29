@@ -272,7 +272,7 @@ def compute_adjusted_shelf_life(doc, method):
     if not doc.item_code or not doc.custom_grade:
         return
 
-    base_shelf_life = frappe.db.get_value("Item", doc.item_code, "custom_base_shelf_life_days")
+    base_shelf_life = frappe.db.get_value("Item", doc.item_code, "shelf_life_in_days")
     if not base_shelf_life:
         return
 
