@@ -136,24 +136,31 @@ def check_spoilage_risk_notifications():
 
 
 def get_high_risk_batches():
-    """Query to find batches with spoilage risk >= 70%."""
+    """Query to find batches with spoilage risk >= 70%.
+
+    In ERPNext v15+, batch tracking uses `Serial and Batch Bundle` as the
+    parent transaction wrapper, with individual batch entries stored in
+    the child table `Serial and Batch Entry`. The `Batch` doctype holds
+    manufacturing/expiry metadata. This query joins through the child
+    table because `tabSerial and Batch Bundle` has no direct `batch_no` column.
+    """
     sql = """
         SELECT
             sbb.name AS batch_bundle_id,
             sbb.item_code,
-            sbb.batch_no,
+            sbe.batch_no,
             sbb.warehouse,
             b.manufacturing_date,
             b.expiry_date,
-            COALESCE(
-                (SELECT ss.batch_qty FROM `tabSerial and Batch Entry` ss
-                 WHERE ss.parent = sbb.name LIMIT 1),
-                0
-            ) AS batch_qty,
+            sbe.qty AS batch_qty,
             i.custom_base_shelf_life_days AS base_shelf_life_days
         FROM `tabSerial and Batch Bundle` sbb
-        INNER JOIN `tabItem` i ON i.name = sbb.item_code
-        INNER JOIN `tabBatch` b ON b.name = sbb.batch_no
+        INNER JOIN `tabSerial and Batch Entry` sbe
+            ON sbe.parent = sbb.name
+        INNER JOIN `tabItem` i
+            ON i.name = sbb.item_code
+        INNER JOIN `tabBatch` b
+            ON b.name = sbe.batch_no
         WHERE
             i.custom_base_shelf_life_days IS NOT NULL
             AND i.custom_base_shelf_life_days > 0
@@ -162,6 +169,8 @@ def get_high_risk_batches():
                 b.expiry_date IS NULL
                 OR b.expiry_date >= CURDATE()
             )
+            AND sbb.docstatus = 1
+        ORDER BY sbb.creation DESC
     """
     batches = frappe.db.sql(sql, as_dict=True)
     high_risk = []
