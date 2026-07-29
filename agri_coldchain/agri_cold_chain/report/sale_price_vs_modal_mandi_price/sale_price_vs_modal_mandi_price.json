@@ -15,8 +15,5 @@
  "ref_doctype": "Sales Invoice",
  "report_name": "Sale Price vs. Modal Mandi Price",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"}
- ]
+ "roles": []
 }

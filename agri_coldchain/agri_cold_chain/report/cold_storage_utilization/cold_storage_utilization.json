@@ -15,9 +15,5 @@
  "ref_doctype": "Cold Storage Unit",
  "report_name": "Cold Storage Utilization",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"},
-  {"role": "Warehouse Operator"}
- ]
+ "roles": []
 }

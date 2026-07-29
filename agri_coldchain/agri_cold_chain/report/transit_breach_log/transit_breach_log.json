@@ -15,8 +15,5 @@
  "ref_doctype": "Delivery Transit Log",
  "report_name": "Transit Breach Log",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"}
- ]
+ "roles": []
 }

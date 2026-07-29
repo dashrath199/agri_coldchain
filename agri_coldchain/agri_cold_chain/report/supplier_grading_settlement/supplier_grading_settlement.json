@@ -15,8 +15,5 @@
  "ref_doctype": "Purchase Receipt",
  "report_name": "Supplier Grading & Settlement",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"}
- ]
+ "roles": []
 }

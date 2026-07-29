@@ -15,9 +15,5 @@
  "ref_doctype": "Serial and Batch Bundle",
  "report_name": "Batches Nearing Expiry",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"},
-  {"role": "Warehouse Operator"}
- ]
+ "roles": []
 }

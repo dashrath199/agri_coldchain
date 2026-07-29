@@ -15,8 +15,5 @@
  "ref_doctype": "Stock Entry",
  "report_name": "Spoilage Loss Value by Commodity/Month",
  "report_type": "Script Report",
- "roles": [
-  {"role": "Cold Storage Manager"},
-  {"role": "Quality Inspector"}
- ]
+ "roles": []
 }
