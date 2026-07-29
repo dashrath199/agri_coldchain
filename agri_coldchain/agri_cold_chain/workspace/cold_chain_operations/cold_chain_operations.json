@@ -1,12 +1,6 @@
 {
- "charts": [
-  {"chart_name": "Batches Nearing Expiry"},
-  {"chart_name": "Sale Price vs Modal Mandi Price"},
-  {"chart_name": "Cold Storage Utilization"},
-  {"chart_name": "Storage by Zone Type"},
-  {"chart_name": "Transit Breaches Trend"}
- ],
- "content": "[{\"id\":\"section-overview\",\"type\":\"header\",\"data\":{\"text\":\"❄️ Cold Storage Health\",\"level\":4,\"col\":12}},{\"id\":\"card-active-units\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Cold Storage Units\",\"col\":3}},{\"id\":\"card-temp-breach\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Temperature Breaches (30 days)\",\"col\":3}},{\"id\":\"card-transit-today\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Transit Logs\",\"col\":3}},{\"id\":\"card-mandi-today\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Mandi Prices Today\",\"col\":3}},{\"id\":\"card-fefo\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"FEFO Overrides (30 days)\",\"col\":3}},{\"id\":\"section-charts\",\"type\":\"header\",\"data\":{\"text\":\"📉 Batch & Price Trends\",\"level\":4,\"col\":12}},{\"id\":\"chart-expiry\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Batches Nearing Expiry\",\"col\":6}},{\"id\":\"chart-mandi\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Price vs Modal Mandi Price\",\"col\":6}},{\"id\":\"chart-utilization\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Cold Storage Utilization\",\"col\":6}},{\"id\":\"chart-zone\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Storage by Zone Type\",\"col\":6}},{\"id\":\"section-operations\",\"type\":\"header\",\"data\":{\"text\":\"🚛 Intake & Dispatch\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-units\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Units\",\"col\":4}},{\"id\":\"shortcut-pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Goods Received (PR)\",\"col\":4}},{\"id\":\"shortcut-qi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"shortcut-mandi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mandi Prices\",\"col\":4}},{\"id\":\"shortcut-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Transit Log\",\"col\":4}},{\"id\":\"shortcut-new-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Transit Log\",\"col\":4}},{\"id\":\"section-analytics\",\"type\":\"header\",\"data\":{\"text\":\"🔍 Compliance & Analytics\",\"level\":4,\"col\":12}},{\"id\":\"shortcut-spoilage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Spoilage Risk\",\"col\":4}},{\"id\":\"shortcut-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breach Log\",\"col\":4}},{\"id\":\"shortcut-fefo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FEFO Override Log\",\"col\":4}},{\"id\":\"shortcut-loss\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Spoilage Loss\",\"col\":4}},{\"id\":\"shortcut-utilization\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Utilization\",\"col\":4}},{\"id\":\"shortcut-supplier\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier Grading\",\"col\":4}},{\"id\":\"shortcut-chart-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breaches Trend\",\"col\":4}}]",
+ "charts": [],
+ "content": "[{\"id\":\"section-storage\",\"type\":\"header\",\"data\":{\"text\":\"❄️ Cold Storage Health\",\"level\":4,\"col\":12}},{\"id\":\"sc-units\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Units\",\"col\":3}},{\"id\":\"sc-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Transit Log\",\"col\":3}},{\"id\":\"sc-mandi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mandi Prices\",\"col\":3}},{\"id\":\"sc-items\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Perishable Items\",\"col\":3}},{\"id\":\"section-receive\",\"type\":\"header\",\"data\":{\"text\":\"📦 Intake & Quality\",\"level\":4,\"col\":12}},{\"id\":\"sc-pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Goods Received (PR)\",\"col\":3}},{\"id\":\"sc-purchase-order\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Orders\",\"col\":3}},{\"id\":\"sc-qi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":3}},{\"id\":\"sc-supplier\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Suppliers\",\"col\":3}},{\"id\":\"section-dispatch\",\"type\":\"header\",\"data\":{\"text\":\"🚛 Dispatch & Sales\",\"level\":4,\"col\":12}},{\"id\":\"sc-dn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Notes\",\"col\":3}},{\"id\":\"sc-so\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Orders\",\"col\":3}},{\"id\":\"sc-si\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoices\",\"col\":3}},{\"id\":\"sc-new-transit\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Transit Log\",\"col\":3}},{\"id\":\"section-stock\",\"type\":\"header\",\"data\":{\"text\":\"📊 Stock & Batches\",\"level\":4,\"col\":12}},{\"id\":\"sc-stock-entry\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Entries\",\"col\":3}},{\"id\":\"sc-batch\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Records\",\"col\":3}},{\"id\":\"sc-fefo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FEFO Override Log\",\"col\":3}},{\"id\":\"sc-stock-age\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ageing\",\"col\":3}},{\"id\":\"section-analytics\",\"type\":\"header\",\"data\":{\"text\":\"🔍 Reports & Analytics\",\"level\":4,\"col\":12}},{\"id\":\"sc-spoilage\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Spoilage Risk\",\"col\":3}},{\"id\":\"sc-utilization\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cold Storage Utilization\",\"col\":3}},{\"id\":\"sc-mandi-report\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sale vs Mandi Price\",\"col\":3}},{\"id\":\"sc-supplier-grade\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier Grading\",\"col\":3}},{\"id\":\"sc-breach\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transit Breach Log\",\"col\":3}},{\"id\":\"sc-loss\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Spoilage Loss Report\",\"col\":3}}]",
  "creation": "2025-01-01 12:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -23,13 +17,7 @@
  "modified": "2025-01-01 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "Cold Chain Operations",
- "number_cards": [
-  {"number_card_name": "Active Cold Storage Units"},
-  {"number_card_name": "Temperature Breaches (30 days)"},
-  {"number_card_name": "Today's Transit Logs"},
-  {"number_card_name": "Mandi Prices Today"},
-  {"number_card_name": "FEFO Overrides (30 days)"}
- ],
+ "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
@@ -56,55 +44,13 @@
   {
    "color": "#3498db",
    "doc_view": "",
-   "label": "Goods Received (PR)",
-   "type": "DocType",
-   "format": "{} Draft",
-   "icon": "package",
-   "link_to": "Purchase Receipt",
-   "stats_filter": "[[\"Purchase Receipt\",\"docstatus\",\"=\",0]]",
-   "idx": 2
-  },
-  {
-   "color": "#2ecc71",
-   "doc_view": "",
-   "label": "Quality Inspection",
-   "type": "DocType",
-   "format": "{} Today",
-   "icon": "check-circle",
-   "link_to": "Quality Inspection",
-   "stats_filter": "[[\"Quality Inspection\",\"creation\",\"=\",\"Today\"]]",
-   "idx": 3
-  },
-  {
-   "color": "#e74c3c",
-   "doc_view": "",
-   "label": "Batch Spoilage Risk",
-   "type": "Report",
-   "format": "View Report",
-   "icon": "alert-triangle",
-   "link_to": "Batches Nearing Expiry",
-   "idx": 4
-  },
-  {
-   "color": "#e67e22",
-   "doc_view": "",
    "label": "Delivery Transit Log",
    "type": "DocType",
    "format": "{} Logged",
    "icon": "truck",
    "link_to": "Delivery Transit Log",
    "stats_filter": "[]",
-   "idx": 5
-  },
-  {
-   "color": "#9b59b6",
-   "doc_view": "",
-   "label": "New Transit Log",
-   "type": "DocType",
-   "format": "+ New",
-   "icon": "plus-circle",
-   "link_to": "Delivery Transit Log",
-   "idx": 6
+   "idx": 2
   },
   {
    "color": "#16a085",
@@ -115,47 +61,127 @@
    "icon": "trending-up",
    "link_to": "Mandi Price Reference",
    "stats_filter": "[[\"Mandi Price Reference\",\"price_date\",\"=\",\"Today\"]]",
-   "idx": 7
+   "idx": 3
   },
   {
-   "color": "#f39c12",
+   "color": "#8e44ad",
    "doc_view": "",
-   "label": "Transit Breaches Trend",
-   "type": "URL",
-   "format": "View Chart",
-   "icon": "bar-chart",
-   "link_to": "/app/dashboard-view/Transit%20Breaches%20Trend",
-   "idx": 8
-  },
-  {
-   "color": "#3498db",
-   "doc_view": "",
-   "label": "Cold Storage Utilization",
-   "type": "Report",
-   "format": "View Report",
-   "icon": "pie-chart",
-   "link_to": "Cold Storage Utilization",
-   "idx": 9
+   "label": "Perishable Items",
+   "type": "DocType",
+   "format": "{} Tracked",
+   "icon": "package",
+   "link_to": "Item",
+   "stats_filter": "[[\"Item\",\"has_batch_no\",\"=\",1]]",
+   "idx": 4
   },
   {
    "color": "#2ecc71",
    "doc_view": "",
-   "label": "Supplier Grading",
-   "type": "Report",
-   "format": "View Report",
-   "icon": "award",
-   "link_to": "Supplier Grading & Settlement",
+   "label": "Goods Received (PR)",
+   "type": "DocType",
+   "format": "{} Draft",
+   "icon": "shopping-cart",
+   "link_to": "Purchase Receipt",
+   "stats_filter": "[[\"Purchase Receipt\",\"docstatus\",\"=\",0]]",
+   "idx": 5
+  },
+  {
+   "color": "#e67e22",
+   "doc_view": "",
+   "label": "Purchase Orders",
+   "type": "DocType",
+   "format": "{} Ordered",
+   "icon": "file-text",
+   "link_to": "Purchase Order",
+   "stats_filter": "[[\"Purchase Order\",\"docstatus\",\"=\",1]]",
+   "idx": 6
+  },
+  {
+   "color": "#2ecc71",
+   "doc_view": "",
+   "label": "Quality Inspection",
+   "type": "DocType",
+   "format": "{} Today",
+   "icon": "check-circle",
+   "link_to": "Quality Inspection",
+   "stats_filter": "[[\"Quality Inspection\",\"creation\",\"=\",\"Today\"]]",
+   "idx": 7
+  },
+  {
+   "color": "#3498db",
+   "doc_view": "",
+   "label": "Suppliers",
+   "type": "DocType",
+   "format": "{} Active",
+   "icon": "users",
+   "link_to": "Supplier",
+   "stats_filter": "[]",
+   "idx": 8
+  },
+  {
+   "color": "#1abc9c",
+   "doc_view": "",
+   "label": "Delivery Notes",
+   "type": "DocType",
+   "format": "{} Today",
+   "icon": "truck",
+   "link_to": "Delivery Note",
+   "stats_filter": "[[\"Delivery Note\",\"creation\",\"=\",\"Today\"]]",
+   "idx": 9
+  },
+  {
+   "color": "#f39c12",
+   "doc_view": "",
+   "label": "Sales Orders",
+   "type": "DocType",
+   "format": "{} Pending",
+   "icon": "shopping-cart",
+   "link_to": "Sales Order",
+   "stats_filter": "[[\"Sales Order\",\"docstatus\",\"=\",1]]",
    "idx": 10
   },
   {
    "color": "#e74c3c",
    "doc_view": "",
-   "label": "Transit Breach Log",
-   "type": "Report",
-   "format": "View Report",
-   "icon": "alert-circle",
-   "link_to": "Transit Breach Log",
+   "label": "Sales Invoices",
+   "type": "DocType",
+   "format": "{} Unpaid",
+   "icon": "dollar-sign",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[[\"Sales Invoice\",\"status\",\"=\",\"Unpaid\"]]",
    "idx": 11
+  },
+  {
+   "color": "#9b59b6",
+   "doc_view": "",
+   "label": "New Transit Log",
+   "type": "DocType",
+   "format": "+ New",
+   "icon": "plus-circle",
+   "link_to": "Delivery Transit Log",
+   "idx": 12
+  },
+  {
+   "color": "#3498db",
+   "doc_view": "",
+   "label": "Stock Entries",
+   "type": "DocType",
+   "format": "{} Draft",
+   "icon": "layers",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"docstatus\",\"=\",0]]",
+   "idx": 13
+  },
+  {
+   "color": "#16a085",
+   "doc_view": "",
+   "label": "Batch Records",
+   "type": "DocType",
+   "format": "{} Active",
+   "icon": "hash",
+   "link_to": "Batch",
+   "stats_filter": "[]",
+   "idx": 14
   },
   {
    "color": "#8e44ad",
@@ -165,17 +191,77 @@
    "format": "View Report",
    "icon": "shield-off",
    "link_to": "FEFO Override Log",
-   "idx": 12
+   "idx": 15
+  },
+  {
+   "color": "#f39c12",
+   "doc_view": "",
+   "label": "Stock Ageing",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "clock",
+   "link_to": "Stock Ageing",
+   "idx": 16
+  },
+  {
+   "color": "#e74c3c",
+   "doc_view": "",
+   "label": "Batch Spoilage Risk",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "alert-triangle",
+   "link_to": "Batches Nearing Expiry",
+   "idx": 17
+  },
+  {
+   "color": "#3498db",
+   "doc_view": "",
+   "label": "Cold Storage Utilization",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "pie-chart",
+   "link_to": "Cold Storage Utilization",
+   "idx": 18
+  },
+  {
+   "color": "#f39c12",
+   "doc_view": "",
+   "label": "Sale vs Mandi Price",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "bar-chart",
+   "link_to": "Sale Price vs. Modal Mandi Price",
+   "idx": 19
+  },
+  {
+   "color": "#2ecc71",
+   "doc_view": "",
+   "label": "Supplier Grading",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "award",
+   "link_to": "Supplier Grading & Settlement",
+   "idx": 20
+  },
+  {
+   "color": "#e74c3c",
+   "doc_view": "",
+   "label": "Transit Breach Log",
+   "type": "Report",
+   "format": "View Report",
+   "icon": "alert-circle",
+   "link_to": "Transit Breach Log",
+   "idx": 21
   },
   {
    "color": "#e67e22",
    "doc_view": "",
-   "label": "Spoilage Loss",
+   "label": "Spoilage Loss Report",
    "type": "Report",
    "format": "View Report",
    "icon": "dollar-sign",
    "link_to": "Spoilage Loss Value by Commodity/Month",
-   "idx": 13
+   "idx": 22
   }
  ],
  "standard": 1,
