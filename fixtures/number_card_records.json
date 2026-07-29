@@ -1,0 +1,62 @@
+[
+ {
+  "doctype": "Number Card",
+  "name": "Active Cold Storage Units",
+  "label": "Active Cold Storage Units",
+  "document_type": "Cold Storage Unit",
+  "type": "Count",
+  "filters_json": "[[\"Cold Storage Unit\",\"is_active\",\"=\",1]]",
+  "color": "#1abc9c",
+  "show_percentage_change": 1,
+  "stats_time_interval": "Daily",
+  "module": "Agri Cold Chain"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Temperature Breaches (30 days)",
+  "label": "Temperature Breaches (30 days)",
+  "document_type": "Delivery Transit Log",
+  "type": "Count",
+  "filters_json": "[[\"Delivery Transit Log\",\"temperature_breach\",\"=\",1],[\"Delivery Transit Log\",\"creation\",\"Timespan\",\"last 30 days\"]]",
+  "color": "#e74c3c",
+  "show_percentage_change": 0,
+  "stats_time_interval": "Daily",
+  "module": "Agri Cold Chain"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Today's Transit Logs",
+  "label": "Today's Transit Logs",
+  "document_type": "Delivery Transit Log",
+  "type": "Count",
+  "filters_json": "[[\"Delivery Transit Log\",\"creation\",\"=\",\"Today\"]]",
+  "color": "#3498db",
+  "show_percentage_change": 1,
+  "stats_time_interval": "Daily",
+  "module": "Agri Cold Chain"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "Mandi Prices Today",
+  "label": "Mandi Prices Today",
+  "document_type": "Mandi Price Reference",
+  "type": "Count",
+  "filters_json": "[[\"Mandi Price Reference\",\"price_date\",\"=\",\"Today\"]]",
+  "color": "#f39c12",
+  "show_percentage_change": 0,
+  "stats_time_interval": "Daily",
+  "module": "Agri Cold Chain"
+ },
+ {
+  "doctype": "Number Card",
+  "name": "FEFO Overrides (30 days)",
+  "label": "FEFO Overrides (30 days)",
+  "document_type": "Notification Log",
+  "type": "Count",
+  "filters_json": "[[\"Notification Log\",\"subject\",\"like\",\"%FEFO Override%\"],[\"Notification Log\",\"creation\",\"Timespan\",\"last 30 days\"]]",
+  "color": "#8e44ad",
+  "show_percentage_change": 0,
+  "stats_time_interval": "Daily",
+  "module": "Agri Cold Chain"
+ }
+]

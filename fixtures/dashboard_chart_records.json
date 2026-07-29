@@ -1,0 +1,71 @@
+[
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Batches Nearing Expiry",
+  "chart_name": "Batches Nearing Expiry",
+  "chart_type": "Report",
+  "report_name": "Batches Nearing Expiry",
+  "type": "Bar",
+  "filters_json": "[]",
+  "timespan": "Last Month",
+  "time_interval": "Daily",
+  "module": "Agri Cold Chain",
+  "is_public": 1
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Sale Price vs Modal Mandi Price",
+  "chart_name": "Sale Price vs Modal Mandi Price",
+  "chart_type": "Report",
+  "report_name": "Sale Price vs. Modal Mandi Price",
+  "type": "Bar",
+  "filters_json": "[]",
+  "timespan": "Last Month",
+  "time_interval": "Daily",
+  "module": "Agri Cold Chain",
+  "is_public": 1
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Cold Storage Utilization",
+  "chart_name": "Cold Storage Utilization",
+  "chart_type": "Report",
+  "report_name": "Cold Storage Utilization",
+  "type": "Bar",
+  "filters_json": "[]",
+  "timespan": "Last Month",
+  "time_interval": "Daily",
+  "module": "Agri Cold Chain",
+  "is_public": 1
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Storage by Zone Type",
+  "chart_name": "Storage by Zone Type",
+  "chart_type": "Group By",
+  "document_type": "Cold Storage Unit",
+  "based_on": "zone_type",
+  "group_by_type": "Count",
+  "number_of_groups": 5,
+  "type": "Pie",
+  "filters_json": "[[\"Cold Storage Unit\",\"is_active\",\"=\",1]]",
+  "timespan": "Last Year",
+  "time_interval": "Monthly",
+  "module": "Agri Cold Chain",
+  "is_public": 1
+ },
+ {
+  "doctype": "Dashboard Chart",
+  "name": "Transit Breaches Trend",
+  "chart_name": "Transit Breaches Trend",
+  "chart_type": "Count",
+  "document_type": "Delivery Transit Log",
+  "based_on": "creation",
+  "filters_json": "[[\"Delivery Transit Log\",\"temperature_breach\",\"=\",1]]",
+  "timespan": "Last Quarter",
+  "time_interval": "Weekly",
+  "type": "Line",
+  "module": "Agri Cold Chain",
+  "is_public": 1
+ }
+]

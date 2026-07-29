@@ -27,10 +27,10 @@
    "idx": 1
   },
   {
-   "type": "DocType",
+   "type": "URL",
    "label": "HACCP Batch Certificate",
    "icon": "file-text",
-   "link_to": "Print Format",
+   "link_to": "/app/print-format/HACCP%20FSSAI%20Batch%20Certificate",
    "idx": 2
   },
   {
@@ -41,10 +41,10 @@
    "idx": 3
   },
   {
-   "type": "URL",
-   "label": "FSSAI Compliance Guide",
-   "icon": "shield",
-   "link_to": "/app/print-format/HACCP%20FSSAI%20Batch%20Certificate",
+   "type": "DocType",
+   "label": "Supplier Purchase Receipts",
+   "icon": "file",
+   "link_to": "Purchase Receipt",
    "idx": 4
   }
  ],
