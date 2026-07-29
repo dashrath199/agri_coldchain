@@ -576,10 +576,7 @@ def _ensure_quality_inspections(items, stock_entries=None):
 			qi = frappe.get_doc({
 				"doctype": "Quality Inspection",
 				"inspection_type": "Incoming",
-				"reference_type": "Stock Entry",
-				"reference_name": ref_name,
 				"item_code": item_code,
-				"sample_size": 10,
 				"report_date": today_dt,
 				"inspected_by": "Administrator",
 				"custom_moisture_percent": moisture,
@@ -587,8 +584,12 @@ def _ensure_quality_inspections(items, stock_entries=None):
 				"custom_grade": grade,
 				"custom_adjusted_shelf_life_days": adjusted,
 			})
+			# Only set reference fields if a stock entry exists
+			if ref_name:
+				qi.reference_type = "Stock Entry"
+				qi.reference_name = ref_name
+				qi.sample_size = 10
 			qi.insert(ignore_permissions=True)
-			# Skip submit — Draft QI still shows data in workspace reports
 			print("  QI: {} — Grade {}, life {} days (draft)".format(item_name, grade, adjusted))
 			created.append(qi.name)
 		except Exception as e:
