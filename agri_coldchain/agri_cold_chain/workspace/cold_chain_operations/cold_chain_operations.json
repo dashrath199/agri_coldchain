@@ -193,7 +193,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "alert-triangle",
-   "link_to": "/app/query-report/Batches%20Nearing%20Expiry",
+   "url": "/app/query-report/Batches%20Nearing%20Expiry",
    "idx": 17
   },
   {
@@ -202,7 +202,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "pie-chart",
-   "link_to": "/app/query-report/Cold%20Storage%20Utilization",
+   "url": "/app/query-report/Cold%20Storage%20Utilization",
    "idx": 18
   },
   {
@@ -211,7 +211,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "bar-chart",
-   "link_to": "/app/query-report/Sale%20Price%20vs.%20Modal%20Mandi%20Price",
+   "url": "/app/query-report/Sale%20Price%20vs.%20Modal%20Mandi%20Price",
    "idx": 19
   },
   {
@@ -220,7 +220,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "award",
-   "link_to": "/app/query-report/Supplier%20Grading%20%26%20Settlement",
+   "url": "/app/query-report/Supplier%20Grading%20%26%20Settlement",
    "idx": 20
   },
   {
@@ -229,7 +229,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "alert-circle",
-   "link_to": "/app/query-report/Transit%20Breach%20Log",
+   "url": "/app/query-report/Transit%20Breach%20Log",
    "idx": 21
   },
   {
@@ -238,7 +238,7 @@
    "type": "URL",
    "format": "View Report",
    "icon": "dollar-sign",
-   "link_to": "/app/query-report/Spoilage%20Loss%20Value%20by%20Commodity%2FMonth",
+   "url": "/app/query-report/Spoilage%20Loss%20Value%20by%20Commodity%2FMonth",
    "idx": 22
   }
  ],
